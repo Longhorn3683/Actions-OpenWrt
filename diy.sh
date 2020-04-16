@@ -7,10 +7,3 @@
 #=================================================
 # Modify default IP
 #sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
-
-# 添加Lean的无线驱动
-git clone https://github.com/Longhorn3683/mt package/mt
-
-# 更新feeds
-./scripts/feeds update -a
-./scripts/feeds install -a
