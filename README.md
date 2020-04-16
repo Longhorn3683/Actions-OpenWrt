@@ -15,6 +15,8 @@
 
 ## 增加的软件包
 - ipv6helper
+- luci-app-syncdial（luci-app-mwan3也会自动勾选）
+- luci-app-udpxy
 
 ## License
 [MIT](https://github.com/P3TERX/Actions-OpenWrt/blob/master/LICENSE) © P3TERX
