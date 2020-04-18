@@ -1,5 +1,5 @@
 # K2P OpenWrt 自用云编译仓库
-- 基于[Lean的源码](https://github.com/coolsnowwolf/lede)修改
+- 基于[Lean的OpenWrt](https://github.com/coolsnowwolf/lede)修改
 - 感谢[P3TERX](https://github.com/P3TERX/Actions-OpenWrt)提供云编译方案
 
 ## 删除的软件包
