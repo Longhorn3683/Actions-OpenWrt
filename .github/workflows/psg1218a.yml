@@ -16,16 +16,14 @@ on:
     branches:
       - master
     paths:
-      - '.config'
+      - 'psg1218a.config'
   schedule:
     - cron: 0 0 * * 5
-  watch:
-    types: started
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt
   REPO_BRANCH: openwrt-19.07
-  CONFIG_FILE: .config
+  CONFIG_FILE: psg1218a.config
   DIY_SH: psg1218a.sh
   SSH_ACTIONS: false
   UPLOAD_BIN_DIR: true
