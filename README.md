@@ -5,11 +5,12 @@
 
 ## 改动
 
-### LuCI--->Applications
+### 增加的软件包
+
+- ipv6helper
 
 - luci-app-autoreboot
 - luci-app-firewall
-- luci-app-flowoffload
 - luci-app-mtwifi
 - luci-app-wifischedule
 
