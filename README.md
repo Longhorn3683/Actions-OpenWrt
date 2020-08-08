@@ -1,17 +1,12 @@
-# OpenWrt 自用云编译仓库
-- 基于 [Lean 的 OpenWrt 源码](https://github.com/coolsnowwolf/lede) 修改
-- 感谢 [P3TERX](https://github.com/P3TERX/Actions-OpenWrt) 提供云编译方案
-- 未提到的均保持默认
+# Longhorn3683 的 OpenWrt 云编译仓库
+- 使用 [Lean's OpenWrt source](https://github.com/coolsnowwolf/lede)
+- 感谢 [P3TERX](https://github.com/P3TERX/Actions-OpenWrt) 开发云编译方案
+- 只编译斐讯K2P的固件
+- README 未提到的均保持默认
 
-## 改动
-
-### 增加的软件包
-
-- ipv6helper
-
+## 增加插件
 - luci-app-autoreboot
 - luci-app-firewall
-- luci-app-mtwifi
 - luci-app-wifischedule
 
 ## License

@@ -1,12 +1,14 @@
-#=================================================
+#
+# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
 # https://github.com/P3TERX/Actions-OpenWrt
 # Description: Build OpenWrt using GitHub Actions
-# Lisence: MIT
-# Author: P3TERX
-# Blog: https://p3terx.com
-#=================================================
+#
 
-name: Build OpenWrt for K2P
+name: Build OpenWrt for Phicomm K2P
 
 on:
   repository_dispatch:
@@ -14,7 +16,7 @@ on:
     types: published
   push:
     branches:
-      - master
+      - main
     paths:
       - 'k2p.config'
   schedule:
@@ -24,12 +26,10 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   CONFIG_FILE: k2p.config
-  DIY_SH: k2p.sh
-  SSH_ACTIONS: false
+  SSH_ACTIONS: true
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: true
-  UPLOAD_WETRANSFER: true
   TZ: Asia/Shanghai
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@main
 
     - name: Initialization environment
       env:
@@ -68,16 +68,8 @@ jobs:
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
-    - name: Load custom configuration
-      run: |
-        [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_SH
-
     - name: SSH connection to Actions
-      uses: P3TERX/debugger-action@master
+      uses: P3TERX/debugger-action@main
       if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
 
     - name: Download package
@@ -105,7 +97,7 @@ jobs:
       run: df -hT
 
     - name: Upload bin directory
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
         name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }} 
@@ -121,7 +113,7 @@ jobs:
         echo "::set-output name=status::success"
 
     - name: Upload firmware directory
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
@@ -133,10 +125,3 @@ jobs:
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log 
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
-
-    - name: Upload firmware to WeTransfer
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true' && !cancelled()
-      run: |
-        curl -fsSL git.io/file-transfer | sh
-        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
-        echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
